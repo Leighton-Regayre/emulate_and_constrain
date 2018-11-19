@@ -7,8 +7,8 @@
 ## Over a set of observations for a given variable/month
 ##  -> Initially assume that the obs table is generated and the emulation has been done prior to running this code
 ##  
-## JJ: 19/11/18: Code tidied for sharing...
-##  The "OnJASMIN=" only applying to PPE output file... *** Other filepaths would need adapting for new user areas/JASMIN... ***
+## JJ: 19/11/18: Code tidied for sharing
+##  The "OnJASMIN=" only applying to PPE output file. *** Other filepaths would need adapting for new user areas/JASMIN***
 ###
 ## source("/nfs/a173/earjsj/constraint/R_code_for_constraint/RunCode_Calculate_ImplausMeasure_NMAEF_NMBF_2627_LSUnifLSPrior_code_embedded.r",echo=TRUE)
 ## source("/nfs/a173/earjsj/constraint/R_code_for_constraint/RunCode_Calculate_ImplausMeasure_NMAEF_NMBF_2627_LSUnifLSPrior_code_embedded.r")
@@ -106,9 +106,9 @@
 
 ################################
 ## Observation source text
-##  -> JJ: Always use "" here...
+##  -> JJ: Always use "" here
 ##    -> This only applies to the name of the variable folder where the "obsID table" is stored? This is not feeding through to everything.
-##    -> 'ObsTab_MultiSetIDIn' below allows different observation sets of the same variable...
+##    -> 'ObsTab_MultiSetIDIn' below allows different observation sets of the same variable
 ################################
 
   Obs_text= ""   
@@ -116,7 +116,7 @@
 
 ############################
 ## HPC, res/olution and vertical level
-##  -> JJ: 19/11/18: The "OnJASMIN" only applying to PPE output file... *** Other filepaths would need adapting for new user areas/JASMIN... ***
+##  -> JJ: 19/11/18: The "OnJASMIN" only applying to PPE output file. *** Other filepaths would need adapting for new user areas/JASMIN ***
 ############################
 
   OnJASMIN = FALSE   ## Is the code run on JASMIN
@@ -259,7 +259,7 @@
 
   if(EmPredRequired==TRUE){
     SaveEmPredToFile = TRUE  ## Makes netcdf filename and file for sumary statistics of prediction (and predictions themselves - big!)
-    RetainEmSDPred = TRUE # Save the StDev on each emulator prediction as well at the mean prediction...
+    RetainEmSDPred = TRUE # Save the StDev on each emulator prediction as well at the mean prediction
     MakeEmPredMeanHistPlots = TRUE ## make histogram plots looking at the mean emulator predictions over the Large sample uncertainty for each observation.
   }else{
     SaveEmPredToFile = FALSE ## Already saved to file if being read in!
@@ -391,7 +391,7 @@
     }else{
       EmulatorList_FileNameStartIn = paste("Emulators_",GridResolutionIn,sep="")
     }
-## If retaining the emulator predictons to file...
+## If retaining the emulator predictons to file
     if(SaveEmPredToFile==TRUE){
       OutputPred_FileNameStart = paste(EmPredLS_text,"_ConstraintObs_",GridResolutionIn,sep="")
       HistsFileNameStart = paste("HistsEmMeanPred_ConstraintObs_",GridResolutionIn,sep="")
@@ -430,7 +430,7 @@
 ## and StructuralUnc on end (zero until formally specified) 
 ##
 ## 'SaveImplausTabToR' saves implausibility output to a table in the background R that you are running in.
-##   -> Table is over-written if do multiple months in same run of code...
+##   -> Table is over-written if do multiple months in same run of code
 #############################################################################################
 
   SaveImplausTabToR = TRUE
@@ -554,12 +554,12 @@
         VariableUsed = ncvar_def(name="VariableUsed",units="",dim=PredInfodim,prec="char")
         MonthUsed = ncvar_def(name="MonthUsed",units="",dim=PredInfodim,prec="char")
         VLIDUsed = ncvar_def(name="VLIDUsed",units="",dim=PredInfodim,prec="char")
-        if(RetainEmSDPred==TRUE){ ## Might choose not to keep $sd, as is big?? Default is to store it...
+        if(RetainEmSDPred==TRUE){ ## Might choose not to keep $sd, as is big?? Default is to store it
           Pred_ncout = nc_create(filename=ncStorageFileEmPred,vars=list(ObsEmMeanPred,ObsEmSDPred,Min_EmPred,Max_EmPred,L95_EmPred,U95_EmPred,Median_EmPred,Mean_EmPred,SD_EmPred,LQ_EmPred,UQ_EmPred,L90_EmPred,U90_EmPred,VariableUsed,MonthUsed,VLIDUsed))
         }else{
           Pred_ncout = nc_create(filename=ncStorageFileEmPred,vars=list(ObsEmMeanPred,Min_EmPred,Max_EmPred,L95_EmPred,U95_EmPred,Median_EmPred,Mean_EmPred,SD_EmPred,LQ_EmPred,UQ_EmPred,L90_EmPred,U90_EmPred,VariableUsed,MonthUsed,VLIDUsed))
         }
-        if(MakeEmPredMeanHistPlots==TRUE){ ## Initiate file for histograms...
+        if(MakeEmPredMeanHistPlots==TRUE){ ## Initiate file for histograms
           HistPlotFile = paste(FnOutputStoragePathStartInPPE,"predict_emulator_obsconstrain/",LS_text,"/",VariableIn,"/",HistsFileNameStart,"_",VariableIn,ObsTab_MultiSetIDIn,"_",MonthVec[kp],"_",VLIDIn,EmMultiSetIDIn,".pdf",sep="")
           pdf(HistPlotFile,width=14,height=14,paper="a4",onefile=TRUE)
           par(mfrow=c(3,2))
@@ -570,7 +570,7 @@
       EmulatorList = NULL
       LargeInputsSample = NULL
       EmMeanPredLSTab_OverObs_File = paste(FnOutputStoragePathStartInPPE,"predict_emulator_obsconstrain/",LS_text,"/",VariableIn,"/",EmPredLS_FileNameStartIn,"_",VariableIn,ObsTab_MultiSetIDIn,"_",MonthVec[kp],"_",VLIDIn,EmMultiSetIDIn,".nc",sep="")
-      ncEmPred = nc_open(EmMeanPredLSTab_OverObs_File) ## Read in the predictions for the large sample...
+      ncEmPred = nc_open(EmMeanPredLSTab_OverObs_File) ## Read in the predictions for the large sample
       EmMeanPredTab_OverObs = ncvar_get(ncEmPred,"ObsEmMeanPred")
       EmSDPredTab_OverObs = ncvar_get(ncEmPred,"ObsEmSDPred")
       NoVariants = dim(EmMeanPredTab_OverObs)[1]
@@ -591,7 +591,7 @@
     GAncid = nc_open(GridAreaFilepath)
 ###    print(GAncid)
     N96_GridAreaMat = ncvar_get(GAncid,"land_area_fraction")
-###    dim(GridAreaMat) ## MO area mat uses LonLat at midpoints... only has 144 cols for lat... MY files have 145... duplicate final lat col to match
+###    dim(GridAreaMat) ## MO area mat uses LonLat at midpoints. only has 144 cols for lat. MY files have 145. duplicate final lat col to match
     N96_GridAreaMat = cbind(N96_GridAreaMat,N96_GridAreaMat[,144])
 ###   dim(GridAreaMat)
     rm(LonFilePath,LatFilePath,GridAreaFilepath,GAncid)
@@ -685,7 +685,7 @@
 #########################################################################
 ## LRE May2018
 ## Equivalent to calls of the functions 'JJCode_Calculate_ImplausibilityMeasure_SingleObs.r' and
-##  'JJCode_Calculate_NMAEF_NMBF_SingleObs_OverInSamp'... These codes now embedded in here...
+##  'JJCode_Calculate_NMAEF_NMBF_SingleObs_OverInSamp' These codes now embedded in here.
 ##
 ## THIS IS INTENDED TO MAKE IT SIMPLE TO ADAPT THE CODE HERE FOR OBSERVATION-SPECIFIC UNCERTAINTIES
 ## (rather than using single percentage values, as is currently the case)
@@ -709,8 +709,8 @@
 ######################################################################
 ######################################################################
 ## If needs to make predictions from the Emulator for the large sample 
-##  of input combinations, do that here... 
-##  -> Otherwise, set EmMeanPred and EmSDPred from file read in...
+##  of input combinations, do that here.
+##  -> Otherwise, set EmMeanPred and EmSDPred from file read in.
 ######################################################################
 
       if(EmPredRequired==TRUE){
@@ -721,7 +721,7 @@
 
 ############################################
 ## Select the emulator from the emulator list:
-##  -> position select is dependent on if "AllObsInTab"...
+##  -> position select is dependent on if "AllObsInTab"
 ############################################
 
         if(FitEmulators==TRUE | AllObsInTab==TRUE){
